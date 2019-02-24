@@ -5,14 +5,14 @@
 #define DR A1 //pin pentru senzorul drept
 #define model 430 //modelul de senzor
 
-const int stepsPerRevolution = 130; //numarul de impulsuri magnetice dintr-o miscare
+const int pasiPerRotatie = 130; //numarul de impulsuri magnetice dintr-o miscare
 int distanta1 = 0; //in aceste variabile vom retine distantele masurate
 int distanta2 = 0;
-int nrStanga = 0;
+int nrStanga = 0; //in aceste variabile vom retine deciziile luate
 int nrStop = 0;
 int nrDreapta = 0;
 
-Stepper myStepper(stepsPerRevolution, 8, 10, 9, 11);// declararea motorului
+Stepper motor(pasiPerRotatie, 8, 10, 9, 11);// declararea motorului
 SharpIR stanga(STG, model); //declararea senzorilor
 SharpIR dreapta(DR, model);
 
@@ -42,10 +42,10 @@ int maxim(int a, int b, int c)
 
 int look()
 {
-  distanta1 = stanga.distance() + 2;
+  distanta1 = stanga.distance() + 2; //se fac masuratorile cu ambii senzori
   distanta2 = dreapta.distance() + 2;
   
-  Serial.print("D1: ");
+  Serial.print("D1: "); //pentru usurinta testarii
   Serial.println(distanta1);
   Serial.print("D2: ");
   Serial.println(distanta2);
@@ -66,34 +66,34 @@ void reinitializare()
 }
 
 void setup() {
-  myStepper.setSpeed(90); //viteza cu care se misca robotul
+  motor.setSpeed(90); //viteza cu care se misca robotul
   Serial.begin(9600);
 }
 
 void loop() {
 
-  for (int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; i++) //pentru a evita valori eronate, procedeul se executa de 10 ori
   {
-      int decizie = look();
-      switch(decizie)
-      {
-        case -1:
-          nrStanga++;
-          break; 
-        case 0:
-          nrStop++;
-          break;
-        case 1:
-          nrDreapta++;
-          break;
-      }
-      delay(50);
+    int decizie = look();
+    switch(decizie) //se incrementeaza unul din cazuri
+    {
+      case -1:
+        nrStanga++;
+        break; 
+      case 0:
+        nrStop++;
+        break;
+      case 1:
+        nrDreapta++;
+        break;
+    }
+    delay(50);
   }
-  if (maxim(nrStanga, nrStop, nrDreapta) == nrStanga)
-    myStepper.step(-stepsPerRevolution);
+  if (maxim(nrStanga, nrStop, nrDreapta) == nrStanga) //se efectueaza rotatie la stanga
+    motor.step(-pasiPerRotatie);
   else
-    if (maxim(nrStanga, nrStop, nrDreapta) == nrDreapta)
-      myStepper.step(stepsPerRevolution);
+    if (maxim(nrStanga, nrStop, nrDreapta) == nrDreapta) //se efectueaza rotatie la dreapta
+      motor.step(pasiPerRotatie);
 
   reinitializare();
   
