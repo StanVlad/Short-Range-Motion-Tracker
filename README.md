@@ -20,4 +20,4 @@ Instrucțiuni de folosire:
 
 Pentru testare folosiți un obiect de dimensiuni suficient de mari încât să poată cuprinde aria de bătaie a ambilor senzori simultan (ex.: un telefon, un caiet). Conectați bateria de 9V la borna situată la baza cutiei. La pornirea aparatului țineți suspendat obiectul în dreptul senzorilor. Efectuați mișcări orizontale de-o parte sau de cealaltă a feței cu senzori, la o viteză redusă, și observați cum roboțelul va urmări obiectul.
 
-Documentație video:
+Documentație video: https://drive.google.com/open?id=1sUL0j-A2ClqhwdLnsY4reRI7kexhaqlA
